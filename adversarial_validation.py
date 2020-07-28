@@ -57,8 +57,9 @@ def adversarial_valid(train:pd.DataFrame, test: pd.DataFrame, columns:list, cate
     
     # Encode categorical columns as LGBM doesn't accept string type columns as input
     for col in categorical_columns:
-        encoder=preprocessing.LabelEncoder()
-        train[col] = encoder.fit_transform(train[col].to_list())
+        if train[col].dtype == object:
+            encoder=preprocessing.LabelEncoder()
+            train[col] = encoder.fit_transform(train[col].to_list())
     
     
     # Create a new train and test set -- Not just melb train, sydney test.
